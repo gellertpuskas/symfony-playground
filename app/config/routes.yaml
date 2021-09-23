@@ -1,3 +1,10 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+pizza_index:
+  path: /pizza
+  controller: App\Controller\PizzaController::index
+
+pizza_store:
+  path: /pizza/store
+  controller: App\Controller\PizzaController::store
