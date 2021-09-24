@@ -19,6 +19,12 @@ class PizzaRepository extends ServiceEntityRepository
         parent::__construct($registry, Pizza::class);
     }
 
+    public function getPizzasWithLowPrice() {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery("SELECT pizza FROM App\Entity\Pizza pizza WHERE pizza.price <= 1000");
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Pizza[] Returns an array of Pizza objects
     //  */

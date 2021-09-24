@@ -6,6 +6,11 @@ pizza_index:
   controller: App\Controller\PizzaController::index
   methods: GET
 
+pizza_index_low_price:
+  path: /pizza/low-price
+  controller: App\Controller\PizzaController::lowPricePizzas
+  methods: GET
+
 pizza_store:
   path: /pizza
   controller: App\Controller\PizzaController::store

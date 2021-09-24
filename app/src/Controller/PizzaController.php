@@ -15,11 +15,27 @@ class PizzaController extends AbstractController
         return $this->json($pizzas);
     }
 
+    public final function lowPricePizzas(PizzaRepository $pizzaRepository, \App\Services\DumpService $dumpService)
+    {
+        $pizzas = $pizzaRepository->getPizzasWithLowPrice();
+
+        $dumpService->dumpData($pizzas);
+
+        $res = [];
+
+        foreach ($pizzas as $pizza) {
+            $res []= ["name" => $pizza->getName()];
+        }
+
+        return $this->json($res);
+    }
+
     public final function store() {
         $entityManager = $this->getDoctrine()->getManager();
 
         $pizza = new Pizza();
         $pizza->setName("test pizza");
+        $pizza->setPrice(1200);
 
         $entityManager->persist($pizza);
         $entityManager->flush();
