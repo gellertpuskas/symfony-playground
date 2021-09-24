@@ -4,9 +4,11 @@ namespace App\Entity;
 
 class Pizza
 {
-    private $id;
+    private int $id;
 
-    private $name;
+    private string $name;
+
+    private int $price;
 
     public function getId(): ?int
     {
@@ -21,6 +23,18 @@ class Pizza
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPrice(): int
+    {
+        return $this->name;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

@@ -11,6 +11,8 @@
 
     <field name="name" type="string" column="name" length="255"/>
 
+    <field name="price" type="integer" column="price" />
+
   </entity>                        
 
 </doctrine-mapping>
