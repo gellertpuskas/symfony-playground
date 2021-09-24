@@ -4,7 +4,9 @@
 pizza_index:
   path: /pizza
   controller: App\Controller\PizzaController::index
+  methods: GET
 
 pizza_store:
-  path: /pizza/store
+  path: /pizza
   controller: App\Controller\PizzaController::store
+  methods: POST
