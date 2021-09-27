@@ -1,0 +1,14 @@
+App\Entity\Pizza:
+  properties:
+    name:
+#      - NotBlank: ~
+#      - Email:
+#          message: This is not a valid email value ({{ value }})
+      - Length:
+          min: 3
+          max: 50
+          minMessage: "Pizza name must be at least {{ limit }} characters long."
+          maxMessage: "Pizza name must be max {{ limit }} characters long."
+    price:
+      - NotBlank: ~
+      - Positive: ~
