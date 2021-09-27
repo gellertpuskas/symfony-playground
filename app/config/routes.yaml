@@ -1,6 +1,3 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
 pizza_index:
   path: /pizza
   controller: App\Controller\PizzaController::index
@@ -10,11 +7,6 @@ pizza_index_low_price:
   path: /pizza/low-price
   controller: App\Controller\PizzaController::lowPricePizzas
   methods: GET
-
-#pizza_store:
-#  path: /pizza
-#  controller: App\Controller\PizzaController::store
-#  methods: POST
 
 pizza_create:
   path: /pizza/create
