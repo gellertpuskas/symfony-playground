@@ -11,7 +11,12 @@ pizza_index_low_price:
   controller: App\Controller\PizzaController::lowPricePizzas
   methods: GET
 
-pizza_store:
-  path: /pizza
-  controller: App\Controller\PizzaController::store
-  methods: POST
+#pizza_store:
+#  path: /pizza
+#  controller: App\Controller\PizzaController::store
+#  methods: POST
+
+pizza_create:
+  path: /pizza/create
+  controller: App\Controller\PizzaController::create
+  methods: GET|POST

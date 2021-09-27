@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Pizza;
+use App\Form\PizzaType;
 use App\Repository\PizzaRepository;
 use \Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class PizzaController extends AbstractController
 {
@@ -14,6 +16,27 @@ class PizzaController extends AbstractController
 
         return $this->render("pizza_index.html.twig", [
             "pizzas" => $pizzas
+        ]);
+    }
+
+    public final function create(Request $request)
+    {
+        $pizza = new Pizza();
+        $pizza->setName("Pizza name");
+        $pizza->setPrice(1000);
+
+        $pizza_form = $this->createForm(PizzaType::class, $pizza);
+
+        $pizza_form->handleRequest($request);
+
+        if($pizza_form->isSubmitted() && $pizza_form->isValid())
+        {
+            $pizza = $pizza_form->getData();
+            return $this->redirectToRoute("pizza_index"); // TODO success
+        }
+
+        return $this->renderForm("pizza/create.html.twig", [
+            "form" => $pizza_form
         ]);
     }
 
