@@ -1,7 +1,8 @@
 App\Entity\Pizza:
   properties:
     name:
-#      - NotBlank: ~
+      - NotBlank: ~
+      - NotNull: ~
 #      - Email:
 #          message: This is not a valid email value ({{ value }})
       - Length:

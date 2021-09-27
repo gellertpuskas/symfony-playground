@@ -25,7 +25,11 @@ class PizzaController extends AbstractController
         $pizza->setName("Pizza name");
         $pizza->setPrice(1000);
 
-        $pizza_form = $this->createForm(PizzaType::class, $pizza);
+        $pizza_form = $this->createForm(PizzaType::class, $pizza, [
+//            Ezek a defaultak
+            "action" => $this->generateUrl("pizza_create"),
+            "method" => "POST"
+        ]);
 
         $pizza_form->handleRequest($request);
 
