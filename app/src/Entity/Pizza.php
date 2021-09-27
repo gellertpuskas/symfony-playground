@@ -29,7 +29,7 @@ class Pizza
 
     public function getPrice(): int
     {
-        return $this->name;
+        return $this->price;
     }
 
     public function setPrice(int $price): self

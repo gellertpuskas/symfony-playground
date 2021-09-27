@@ -12,7 +12,9 @@ class PizzaController extends AbstractController
     {
         $pizzas = $pizzaRepository->findAll();
 
-        return $this->json($pizzas);
+        return $this->render("pizza_index.html.twig", [
+            "pizzas" => $pizzas
+        ]);
     }
 
     public final function lowPricePizzas(PizzaRepository $pizzaRepository, \App\Services\DumpService $dumpService)
