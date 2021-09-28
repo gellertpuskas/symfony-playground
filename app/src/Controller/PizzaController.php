@@ -6,6 +6,7 @@ use App\Entity\Pizza;
 use App\Form\PizzaType;
 use App\Repository\PizzaRepository;
 use \Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class PizzaController extends AbstractController
@@ -26,7 +27,6 @@ class PizzaController extends AbstractController
         $pizza->setPrice(1000);
 
         $pizza_form = $this->createForm(PizzaType::class, $pizza, [
-//            Ezek a defaultak
             "action" => $this->generateUrl("pizza_create"),
             "method" => "POST"
         ]);
@@ -35,13 +35,27 @@ class PizzaController extends AbstractController
 
         if($pizza_form->isSubmitted() && $pizza_form->isValid())
         {
-            $pizza = $pizza_form->getData();
+            $this->store($pizza_form);
+
             return $this->redirectToRoute("pizza_index"); // TODO success
         }
 
         return $this->renderForm("pizza/create.html.twig", [
             "form" => $pizza_form
         ]);
+    }
+
+    private function store(FormInterface $pizza_form)
+    {
+        $doctrine = $this->getDoctrine();
+
+        $entityManager = $doctrine->getManager();
+
+        $pizza = $pizza_form->getData();
+
+        $entityManager->persist($pizza);
+
+        $entityManager->flush();
     }
 
     public final function lowPricePizzas(PizzaRepository $pizzaRepository, \App\Services\DumpService $dumpService)
@@ -57,18 +71,5 @@ class PizzaController extends AbstractController
         }
 
         return $this->json($res);
-    }
-
-    public final function store() {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $pizza = new Pizza();
-        $pizza->setName("test pizza");
-        $pizza->setPrice(1200);
-
-        $entityManager->persist($pizza);
-        $entityManager->flush();
-
-        return $this->json($pizza);
     }
 }
