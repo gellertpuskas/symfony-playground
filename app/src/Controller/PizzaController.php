@@ -8,9 +8,19 @@ use App\Repository\PizzaRepository;
 use \Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PizzaController extends AbstractController
 {
+    /** @var ValidatorInterface */
+    public $validator;
+
+    public function __construct(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
+    }
+
+
     public final function index(PizzaRepository $pizzaRepository)
     {
         $pizzas = $pizzaRepository->findAll();
@@ -31,13 +41,20 @@ class PizzaController extends AbstractController
             "method" => "POST"
         ]);
 
+
         $pizza_form->handleRequest($request);
 
-        if($pizza_form->isSubmitted() && $pizza_form->isValid())
+        if($pizza_form->isSubmitted()/* && $pizza_form->isValid()*/)
         {
-            $this->store($pizza_form);
+            $storeResult = $this->store($pizza_form);
 
-            return $this->redirectToRoute("pizza_index"); // TODO success
+            $success = $storeResult["success"];
+
+            if($success) {
+                return $this->redirectToRoute("pizza_index"); // TODO success
+            } else {
+                return $this->redirectToRoute("pizza_index"); // TODO error
+            }
         }
 
         return $this->renderForm("pizza/create.html.twig", [
@@ -47,15 +64,28 @@ class PizzaController extends AbstractController
 
     private function store(FormInterface $pizza_form)
     {
-        $doctrine = $this->getDoctrine();
+        $errors = $this->validator->validate($pizza_form->getData());
 
-        $entityManager = $doctrine->getManager();
+        if (count($errors) !== 0)
+        {
+            return [
+                "success" => false,
+                "pizza" => null
+            ];
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
 
         $pizza = $pizza_form->getData();
 
         $entityManager->persist($pizza);
 
         $entityManager->flush();
+
+        return [
+            "success" => true,
+            "pizza" => $pizza
+        ];
     }
 
     public final function lowPricePizzas(PizzaRepository $pizzaRepository, \App\Services\DumpService $dumpService)
