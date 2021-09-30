@@ -8,6 +8,7 @@ use App\Repository\PizzaRepository;
 use \Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PizzaController extends AbstractController
@@ -15,18 +16,28 @@ class PizzaController extends AbstractController
     /** @var ValidatorInterface */
     public $validator;
 
-    public function __construct(ValidatorInterface $validator)
+    /** @var RequestStack */
+    public $requestStack;
+
+    public function __construct(ValidatorInterface $validator, RequestStack $requestStack)
     {
         $this->validator = $validator;
+        $this->requestStack = $requestStack;
     }
 
 
     public final function index(PizzaRepository $pizzaRepository)
     {
+        $session = $this->requestStack->getSession();
+        $page_requested_times = $session->get("page_requested_times", 0);
+        $current_page_requests = $page_requested_times + 1;
+        $session->set("page_requested_times", $current_page_requests);
+
         $pizzas = $pizzaRepository->findAll();
 
         return $this->render("pizza_index.html.twig", [
-            "pizzas" => $pizzas
+            "pizzas" => $pizzas,
+            "current_page_requests" => $current_page_requests
         ]);
     }
 
