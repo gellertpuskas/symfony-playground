@@ -41,10 +41,9 @@ class PizzaController extends AbstractController
             "method" => "POST"
         ]);
 
-
         $pizza_form->handleRequest($request);
 
-        if($pizza_form->isSubmitted()/* && $pizza_form->isValid()*/)
+        if($pizza_form->isSubmitted())
         {
             $storeResult = $this->store($pizza_form);
 
