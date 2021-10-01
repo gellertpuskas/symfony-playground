@@ -12,8 +12,7 @@
 
         <field name="email" column="email" length="180" unique="true"/>
 
-        <field name="roles" column="roles" type="string" />
-
+        <field name="roles" column="roles" type="array" />
         <field name="password" column="password" type="string"/>
     </entity>
 </doctrine-mapping>
