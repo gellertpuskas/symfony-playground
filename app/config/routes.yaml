@@ -32,4 +32,4 @@ app_login:
 app_logout:
   path: /logout
   controller: App\Controller\SecurityController::logout
-  methods: POST
+  methods: GET

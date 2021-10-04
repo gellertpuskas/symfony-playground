@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use \Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserController extends AbstractController {
@@ -18,10 +19,14 @@ class UserController extends AbstractController {
     /** @var ValidatorInterface */
     private $validator;
 
-    public function __construct(UserRepository $userRepository, ValidatorInterface $validator)
+    /** @var UserPasswordHasherInterface  */
+    private $userPasswordHasher;
+
+    public function __construct(UserRepository $userRepository, ValidatorInterface $validator, UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->userRepository = $userRepository;
         $this->validator = $validator;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
 
@@ -65,6 +70,10 @@ class UserController extends AbstractController {
         $em = $this->getDoctrine()->getManager();
 
         $user = $form->getData();
+
+        $hashed_password = $this->userPasswordHasher->hashPassword($user, $user->getPassword());
+        $user->setPassword($hashed_password);
+
         $em->persist($user);
         $em->flush();
 
