@@ -1,0 +1,5 @@
+
+app_test_index:
+  path: /
+  methods: GET
+  controller: App\Bundle\Test\TestBundle\Controller\TestController::index

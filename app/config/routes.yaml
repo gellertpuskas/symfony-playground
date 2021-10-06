@@ -33,3 +33,7 @@ app_logout:
   path: /logout
   controller: App\Controller\SecurityController::logout
   methods: GET
+
+app_test:
+  resource: "@AcmeTestBundle/Resources/config/routing.yml"
+  prefix: /test
