@@ -37,3 +37,7 @@ app_logout:
 app_test:
   resource: "@AcmeTestBundle/Resources/config/routing.yml"
   prefix: /test
+
+app_api:
+  resource: "@ApiBundle/Resources/config/routing.yml"
+  prefix: /api

@@ -3,6 +3,7 @@
 return [
     // own bundles
     App\Bundle\Test\TestBundle\AcmeTestBundle::class => ['all' => true],
+    App\Bundle\Api\ApiBundle\ApiBundle::class => ['all' => true],
     //
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],

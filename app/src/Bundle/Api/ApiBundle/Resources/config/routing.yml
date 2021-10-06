@@ -1,0 +1,5 @@
+
+api_users_index:
+  path: /pizza
+  methods: GET
+  controller: App\Bundle\Api\ApiBundle\Controller\ApiController::index
